@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #dddddd;
+  font-size: 24px;
+  text-transform: capitalize;
+  padding: 10px;
+  width: 800px;
+  border-radius: 15px;
+  box-shadow:
+    0px 4px 12px rgba(255, 255, 255, 0.2),
+    0px 6px 20px rgba(0, 0, 0, 0.15);
+  justify-content: center;
+}
+.label-input {
+  display: flex;
+  align-items: center;
+}
+.label {
+  width: 220px;
+}
+.input {
+  background-color: #fff;
+  flex: 1;
+  height: 48px;
+  font-size: 16px;
+  padding: 6px;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.3s ease-in-out;
+}
+input:focus {
+  border-color: #007bff; /* Change border color on focus */
+}
+.btn {
+  background-color: green;
+}

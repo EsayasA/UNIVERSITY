@@ -1,0 +1,107 @@
+/* Navbar general styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #333;
+  color: white;
+}
+
+.navbar-links {
+  display: flex;
+  list-style-type: none;
+  align-items: center;
+  gap: 2rem;
+}
+
+.navbar-links li {
+  font-size: 1.1rem;
+}
+
+.navbar-links a {
+  text-decoration: none;
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.navbar-links a:hover {
+  color: #4caf50;
+}
+
+.user-profile {
+  position: relative;
+}
+
+/* Profile button style */
+.profile-btn {
+  background-color: #4caf50;
+  color: white;
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+.profile-btn:hover {
+  background-color: #45a049;
+}
+
+/* Dropdown content styles */
+.dropdown-content {
+  display: block;
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 180px;
+  z-index: 1;
+}
+
+.dropdown-content a,
+.dropdown-content button {
+  display: block;
+  padding: 12px;
+  text-decoration: none;
+  color: #333;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-size: 1rem;
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-content a:hover,
+.dropdown-content button:hover {
+  background-color: #f0f0f0;
+}
+
+.dropdown-content button {
+  background-color: #fff;
+  cursor: pointer;
+}
+
+/* Login button styling */
+.login-btn {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.login-btn:hover {
+  background-color: #45a049;
+}

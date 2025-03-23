@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src", // Set the base URL to 'src' for absolute imports
+    "paths": {
+      "*": ["*"]
+    }
+  },
+  "include": ["src/**/*"]
+}
