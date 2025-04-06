@@ -7,10 +7,12 @@ import axios from "axios";
 export default function Navbar() {
   const [user, setUser] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [Open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
   const profileBtnRef = useRef(null);
   const navigate = useNavigate();
 
+  const closeMenu = () => setOpen((prev) => !prev);
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
   };
@@ -76,49 +78,61 @@ export default function Navbar() {
   };
 
   return (
-    <div className="navbar">
-      <Link to="/">
-        <Logo />
-      </Link>
+    <nav className="navbar">
+      <div className="hamburger" onClick={closeMenu}>
+        ☰
+      </div>
+      <div className={`navbar-lists ${Open ? "active" : ""}`}>
+        <Link className="logo" to="/">
+          <Logo />
+        </Link>
 
-      <ul className="navbar-links">
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/contact">Contact</Link>
-        </li>
-        <li className="user-profile">
-          {user ? (
-            // If user is logged in, show profile button and dropdown
-            <div className="profile-dropdown">
-              <button
-                ref={profileBtnRef}
-                onClick={toggleDropdown}
-                className="profile-btn"
+        <ul className="navbar-links">
+          <li>
+            <Link to="/" onClick={closeMenu}>
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link to="/contact" onClick={closeMenu}>
+              Contact
+            </Link>
+          </li>
+          <li className="user-profile">
+            {user ? (
+              // If user is logged in, show profile button and dropdown
+              <div className="profile-dropdown">
+                <button
+                  ref={profileBtnRef}
+                  onClick={toggleDropdown}
+                  className="profile-btn"
+                >
+                  {user.name.charAt(0).toUpperCase()}
+                </button>
+                {isOpen && (
+                  <div ref={dropdownRef} className="dropdown-content">
+                    <Link to="/profile">View Profile</Link>
+                    <Link to="/search">Search</Link>
+                    <button onClick={handleLogout} className="logout-btn">
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              // If user is not logged in, show login button
+
+              <Link
+                to="/login"
+                onClick={(handleLogin, closeMenu)}
+                className="login-btn"
               >
-                {user.name.charAt(0).toUpperCase()}
-              </button>
-              {isOpen && (
-                <div ref={dropdownRef} className="dropdown-content">
-                  <Link to="/profile">View Profile</Link>
-                  <Link to="/search">Search</Link>
-                  <button onClick={handleLogout} className="logout-btn">
-                    Logout
-                  </button>
-                </div>
-              )}
-            </div>
-          ) : (
-            // If user is not logged in, show login button
-            <li>
-              <Link to="/login" onClick={handleLogin} className="login-btn">
                 Login
               </Link>
-            </li>
-          )}
-        </li>
-      </ul>
-    </div>
+            )}
+          </li>
+        </ul>
+      </div>
+    </nav>
   );
 }

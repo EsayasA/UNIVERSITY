@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Login.css";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,23 +20,25 @@ export default function Login() {
 
       localStorage.setItem("authToken", token);
       localStorage.setItem("user", JSON.stringify(user)); // Save user info in local storage
-      console.log("Login successful:", user);
-      if (response.status === 200) {
-        toast.success("Login successful!");
-      }
+
+      toast.success("Login successful!");
       navigate("/profile");
       // eslint-disable-next-line no-unused-vars
     } catch (err) {
-      toast.error("login failed");
+      if (err.response && err.response.data.error) {
+        toast.error(err.response.data.error); // Specific backend error
+      } else {
+        toast.error("Something went wrong");
+      }
     }
   };
 
   return (
-    <div class="login-container">
-      <div class="login-box">
+    <div className="login-container">
+      <div className="login-box">
         <h2>Login</h2>
         <form action="#" method="POST" onSubmit={handleSubmit}>
-          <div class="input-group">
+          <div className="input-group">
             <label for="email">Email Address</label>
             <input
               type="email"
@@ -49,7 +51,7 @@ export default function Login() {
             />
           </div>
 
-          <div class="input-group">
+          <div className="input-group">
             <label for="password">Password</label>
             <input
               type="password"
@@ -62,19 +64,19 @@ export default function Login() {
             />
           </div>
 
-          <button type="submit" class="btn">
+          <button type="submit" className="btn">
             Login
           </button>
 
-          <div class="forgot-password">
-            <a href="/forgot-password">Forgot your password?</a>
+          <div className="forgot-password">
+            <Link to={"/forgot-password"}>Forgot your password?</Link>
           </div>
           <div>
             <p>
               Don't have an account?{" "}
-              <a href="/signup" className="text-red-300">
+              <Link to={"/signup"} className="text-red-300">
                 Register
-              </a>{" "}
+              </Link>{" "}
             </p>
           </div>
         </form>

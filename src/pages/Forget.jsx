@@ -42,7 +42,9 @@ export default function Forget() {
           />
         </div>
 
-        <button type="submit">Send Reset Link</button>
+        <button className="btn-fgt" type="submit">
+          Send Reset Link
+        </button>
       </form>
 
       <p class="back-to-login">

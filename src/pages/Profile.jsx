@@ -78,6 +78,7 @@ export default function Profile() {
 
   return (
     <form onSubmit={handleSubmit} className="container">
+      <h2 className="text-center">User Profile Setting</h2>
       <div className="label-input">
         <label className="label">Name</label>
         <input

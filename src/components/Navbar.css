@@ -1,9 +1,5 @@
 /* Navbar general styles */
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
   background-color: #333;
   color: white;
 }
@@ -104,4 +100,36 @@
 
 .login-btn:hover {
   background-color: #45a049;
+}
+.hamburger {
+  display: none;
+}
+.navbar-lists {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+
+@media (max-width: 320px) {
+  .hamburger {
+    display: block;
+    padding: 15px;
+  }
+  .navbar-lists {
+    display: none;
+  }
+  .navbar-lists.active {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .navbar-links {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .logo {
+    display: none;
+  }
 }

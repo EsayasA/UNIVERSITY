@@ -3,7 +3,7 @@ import "./Signup.css";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Signup() {
   const [name, setName] = useState("");
@@ -14,7 +14,7 @@ export default function Signup() {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:5000/auth/register", {
+      const response = await axios.post("http://localhost:5000/auth/register", {
         name,
         email,
         password,
@@ -23,11 +23,15 @@ export default function Signup() {
       setName(""); // Clear form fields
       setEmail("");
       setPassword("");
-      toast.success("Signup successful! You can now log in.");
+      toast.success(response.data.message);
       navigate("/login");
       // eslint-disable-next-line no-unused-vars
     } catch (err) {
-      toast.error("Registration failed");
+      if (err.response && err.response.data.error) {
+        toast.error(err.response.data.error); // Specific backend error
+      } else {
+        toast.error("Something went wrong");
+      }
     }
   };
 
@@ -73,11 +77,13 @@ export default function Signup() {
           />
         </div>
 
-        <button type="submit">Sign Up</button>
+        <button className="signup-btn" type="submit">
+          Sign Up
+        </button>
       </form>
 
       <p className="login-link">
-        Already have an account? <a href="/login">Log in</a>
+        Already have an account? <Link to={"/login"}>Log in</Link>
       </p>
     </div>
   );

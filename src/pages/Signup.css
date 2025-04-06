@@ -45,7 +45,7 @@
   outline: none;
 }
 
-button {
+.signup-btn {
   width: 100%;
   background: #667eea;
   color: white;

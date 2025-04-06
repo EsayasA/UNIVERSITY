@@ -13,12 +13,12 @@ router.post("/register", async (req, res) => {
     const { name, email, password } = req.body;
     if (!password || password.length < 8) {
       return res
-        .status(400)
+        .status(402)
         .json({ error: "Password must be at least 8 characters long" });
     }
     // Check if user already exists
     let user = await User.findOne({ email });
-    if (user) return res.status(400).json({ msg: "User already exists" });
+    if (user) return res.status(409).json({ error: "User already exists" });
 
     // Hash password
     const salt = await bcrypt.genSalt(10);
@@ -34,10 +34,13 @@ router.post("/register", async (req, res) => {
       expiresIn: "1h",
     });
 
-    res.json({ token, user });
-    // eslint-disable-next-line no-unused-vars
+    res.json({
+      token,
+      user,
+      message: "Registration successful, you can login now!",
+    });
   } catch (err) {
-    res.status(500).json({ msg: "Server error" });
+    res.status(500).json({ msg: "Something went rong!" });
   }
 });
 
@@ -48,13 +51,13 @@ router.post("/login", async (req, res) => {
     // Check if the user exists
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: "Invalid email or password" });
+      return res.status(400).json({ error: "Invalid email or password" });
     }
 
     // Check if the password is correct
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid email or password" });
+      return res.status(400).json({ error: "Invalid email or password" });
     }
 
     // Create a JWT token
@@ -137,19 +140,44 @@ router.put("/updateProfile", verifyToken, async (req, res) => {
 
 router.get("/search", async (req, res) => {
   const { category, query } = req.query;
+  const page = parseInt(req.query.page) || 1; // Default to page 1
+  const limit = parseInt(req.query.limit) || 10; // Default to 10 results per page
 
   try {
     let results;
+    let totalCount;
+
     if (category === "department") {
+      // Search by department
       results = await User.find({
+        department: { $regex: query, $options: "i" },
+      })
+        .skip((page - 1) * limit) // Skip results for previous pages
+        .limit(limit); // Limit the number of results per page
+      totalCount = await User.countDocuments({
         department: { $regex: query, $options: "i" },
       });
     } else if (category === "campus") {
-      results = await User.find({ campus: { $regex: query, $options: "i" } });
+      // Search by campus
+      results = await User.find({
+        campus: { $regex: query, $options: "i" },
+      })
+        .skip((page - 1) * limit) // Skip results for previous pages
+        .limit(limit); // Limit the number of results per page
+      totalCount = await User.countDocuments({
+        campus: { $regex: query, $options: "i" },
+      });
     }
-    console.log(results);
 
-    res.json(results);
+    const totalPages = Math.ceil(totalCount / limit); // Calculate total pages
+
+    // Send results and pagination info
+    res.json({
+      results,
+      totalCount,
+      totalPages,
+      currentPage: page,
+    });
   } catch (error) {
     console.error("Error fetching users:", error);
     res.status(500).send("Error fetching data");

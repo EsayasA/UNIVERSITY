@@ -1,8 +1,8 @@
-* {
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
+} */
 
 html,
 body {
@@ -14,15 +14,16 @@ body {
 .layout {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Full viewport height */
 }
 
 .main-outlet {
+  min-height: 80vh; /* or enough space to keep footer at bottom */
+  padding: 1rem;
+  transition: all 0.3s ease;
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 15px;
 
   background: linear-gradient(135deg, #e0eafc, #cfdef3);
   margin: 0;
