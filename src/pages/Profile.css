@@ -36,7 +36,7 @@ input:focus {
 .btn {
   background-color: green;
 }
-@media (max-width: 320px) {
+@media (max-width: 375px) {
   .label-input {
     display: flex;
     flex-direction: column;

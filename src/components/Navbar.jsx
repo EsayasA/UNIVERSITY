@@ -114,9 +114,16 @@ export default function Navbar() {
                 </button>
                 {isOpen && (
                   <div ref={dropdownRef} className="dropdown-content">
-                    <Link to="/profile">View Profile</Link>
-                    <Link to="/search">Search</Link>
-                    <button onClick={handleLogout} className="logout-btn">
+                    <Link to="/profile" onClick={closeMenu}>
+                      View Profile
+                    </Link>
+                    <Link to="/search" onClick={closeMenu}>
+                      Search
+                    </Link>
+                    <button
+                      onClick={(handleLogout, closeMenu)}
+                      className="logout-btn"
+                    >
                       Logout
                     </button>
                   </div>
