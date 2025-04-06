@@ -11,7 +11,7 @@ export default function Forget() {
     e.preventDefault();
     axios
       .post(
-        "http://localhost:5000/auth/forgot-password",
+        "https://backend-addis-1.onrender.com/auth/forgot-password",
         { email },
         { withCredentials: true }
       )

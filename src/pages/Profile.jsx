@@ -23,9 +23,12 @@ export default function Profile() {
         return;
       }
 
-      const response = await axios.get("http://localhost:5000/auth/profile", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get(
+        "https://backend-addis-1.onrender.com/auth/profile",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       setUser(response.data.user); // Store user data in state
       localStorage.setItem("user", JSON.stringify(response.data.user)); // Save user data in localStorage
@@ -52,7 +55,7 @@ export default function Profile() {
 
     try {
       const response = await axios.put(
-        "http://localhost:5000/auth/updateProfile",
+        "https://backend-addis-1.onrender.com/auth/updateProfile",
         {
           name: user.name,
           phone: user.phone,

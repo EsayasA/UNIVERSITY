@@ -11,9 +11,12 @@ export default function ResetPassword() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post(`http://localhost:5000/auth/reset-password/${id}/${token}`, {
-        password,
-      })
+      .post(
+        `https://backend-addis-1.onrender.com/auth/reset-password/${id}/${token}`,
+        {
+          password,
+        }
+      )
       .then((res) => {
         if (res.data.Status === "Success") {
           navigate("/login");

@@ -46,9 +46,12 @@ export default function Navbar() {
     }
 
     try {
-      const response = await axios.get("http://localhost:5000/auth/profile", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get(
+        "https://backend-addis-1.onrender.com/auth/profile",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setUser(response.data.user); // Set user if token is valid
     } catch (error) {
       console.error("Error fetching user data:", error);

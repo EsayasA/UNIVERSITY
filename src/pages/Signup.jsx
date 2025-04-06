@@ -14,11 +14,14 @@ export default function Signup() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:5000/auth/register", {
-        name,
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "https://backend-addis-1.onrender.com/auth/register",
+        {
+          name,
+          email,
+          password,
+        }
+      );
 
       setName(""); // Clear form fields
       setEmail("");

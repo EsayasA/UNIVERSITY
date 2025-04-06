@@ -35,14 +35,17 @@ export default React.memo(function Search() {
 
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:5000/auth/search", {
-        params: {
-          category: searchCategory,
-          query: searchQuery,
-          page,
-          limit: 10,
-        },
-      });
+      const response = await axios.get(
+        "https://backend-addis-1.onrender.com/auth/search",
+        {
+          params: {
+            category: searchCategory,
+            query: searchQuery,
+            page,
+            limit: 10,
+          },
+        }
+      );
 
       setResults(response.data.results);
       setTotalPages(response.data.totalPages);
