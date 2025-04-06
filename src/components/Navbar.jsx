@@ -120,10 +120,7 @@ export default function Navbar() {
                     <Link to="/search" onClick={closeMenu}>
                       Search
                     </Link>
-                    <button
-                      onClick={(handleLogout, closeMenu)}
-                      className="logout-btn"
-                    >
+                    <button onClick={handleLogout} className="logout-btn">
                       Logout
                     </button>
                   </div>
