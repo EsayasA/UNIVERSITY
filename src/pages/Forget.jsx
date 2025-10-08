@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./Forget.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function Forget() {
   const [email, setEmail] = useState();
   const navigate = useNavigate();
@@ -11,7 +13,7 @@ export default function Forget() {
     e.preventDefault();
     axios
       .post(
-        "https://backend-addis-1.onrender.com/auth/forgot-password",
+        `${API_URL}/auth/forgot-password`,
         { email },
         { withCredentials: true }
       )

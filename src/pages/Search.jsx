@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 import axios from "axios";
 import "./Search.css";
+const API_URL = import.meta.env.VITE_API_URL;
 
 // Memoized ResultsList to prevent re-rendering unless 'results' changes
 const ResultsList = React.memo(({ results }) => {
@@ -35,17 +36,14 @@ export default React.memo(function Search() {
 
     setLoading(true);
     try {
-      const response = await axios.get(
-        "https://backend-addis-1.onrender.com/auth/search",
-        {
-          params: {
-            category: searchCategory,
-            query: searchQuery,
-            page,
-            limit: 10,
-          },
-        }
-      );
+      const response = await axios.get(`${API_URL}/auth/search`, {
+        params: {
+          category: searchCategory,
+          query: searchQuery,
+          page,
+          limit: 10,
+        },
+      });
 
       setResults(response.data.results);
       setTotalPages(response.data.totalPages);

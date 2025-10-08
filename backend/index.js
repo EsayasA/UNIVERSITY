@@ -6,15 +6,11 @@ import authRoutes from "./routes/authRoutes.js";
 dotenv.config();
 
 const app = express();
-const port = 5000;
+const port = 5001;
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://addis-uni.netlify.app",
-      "https://backend-addis-1.onrender.com",
-    ],
+    origin: "http://localhost:5174",
     credentials: true, // Allow requests from this origin
   })
 );

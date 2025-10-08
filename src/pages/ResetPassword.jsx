@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function ResetPassword() {
   const [password, setPassword] = useState();
@@ -11,12 +12,9 @@ export default function ResetPassword() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post(
-        `https://backend-addis-1.onrender.com/auth/reset-password/${id}/${token}`,
-        {
-          password,
-        }
-      )
+      .post(`${API_URL}/auth/reset-password/${id}/${token}`, {
+        password,
+      })
       .then((res) => {
         if (res.data.Status === "Success") {
           navigate("/login");

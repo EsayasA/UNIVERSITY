@@ -40,7 +40,11 @@ router.post("/register", async (req, res) => {
       message: "Registration successful, you can login now!",
     });
   } catch (err) {
-    res.status(500).json({ msg: "Something went rong!" });
+    if (err.name === "ValidationError") {
+      return res.status(400).json({ error: err.message });
+    }
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
   }
 });
 

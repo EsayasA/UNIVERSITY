@@ -4,6 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Signup() {
   const [name, setName] = useState("");
@@ -14,14 +15,11 @@ export default function Signup() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "https://backend-addis-1.onrender.com/auth/register",
-        {
-          name,
-          email,
-          password,
-        }
-      );
+      const response = await axios.post(`${API_URL}/auth/register`, {
+        name,
+        email,
+        password,
+      });
 
       setName(""); // Clear form fields
       setEmail("");

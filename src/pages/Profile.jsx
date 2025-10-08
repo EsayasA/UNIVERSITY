@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "./Profile.css";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Profile() {
   const [user, setUser] = useState(null); // Initially, no user data
@@ -23,12 +24,9 @@ export default function Profile() {
         return;
       }
 
-      const response = await axios.get(
-        "https://backend-addis-1.onrender.com/auth/profile",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const response = await axios.get(`${API_URL}/auth/profile`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       setUser(response.data.user); // Store user data in state
       localStorage.setItem("user", JSON.stringify(response.data.user)); // Save user data in localStorage
@@ -55,7 +53,7 @@ export default function Profile() {
 
     try {
       const response = await axios.put(
-        "https://backend-addis-1.onrender.com/auth/updateProfile",
+        `${API_URL}/auth/updateProfile`,
         {
           name: user.name,
           phone: user.phone,

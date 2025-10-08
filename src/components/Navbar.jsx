@@ -3,6 +3,7 @@ import Logo from "./Logo";
 import "./Navbar.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Navbar() {
   const [user, setUser] = useState(null);
@@ -11,6 +12,7 @@ export default function Navbar() {
   const dropdownRef = useRef(null);
   const profileBtnRef = useRef(null);
   const navigate = useNavigate();
+  console.log(API_URL);
 
   const closeMenu = () => setOpen((prev) => !prev);
   const toggleDropdown = () => {
@@ -46,12 +48,9 @@ export default function Navbar() {
     }
 
     try {
-      const response = await axios.get(
-        "https://backend-addis-1.onrender.com/auth/profile",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const response = await axios.get(`${API_URL}/auth/profile`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setUser(response.data.user); // Set user if token is valid
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -121,7 +120,7 @@ export default function Navbar() {
                       Search
                     </Link>
                     <button
-                      onClick={(handleLogout, closeMenu)}
+                      onClick={(handleLogout(), closeMenu())}
                       className="logout-btn"
                     >
                       Logout
@@ -134,7 +133,7 @@ export default function Navbar() {
 
               <Link
                 to="/login"
-                onClick={(handleLogin, closeMenu)}
+                onClick={(handleLogin(), closeMenu())}
                 className="login-btn"
               >
                 Login

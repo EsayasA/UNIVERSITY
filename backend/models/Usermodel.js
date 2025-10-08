@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import dns from "dns";
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true }, // ✅ Fixed name field
   email: {
@@ -8,7 +8,23 @@ const userSchema = new mongoose.Schema({
     unique: true,
     trim: true,
     lowercase: true,
-    match: [/^\S+@\S+\.\S+$/, "Invalid email format"],
+    match: [
+      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+      "Invalid email format",
+    ],
+    validate: {
+      validator: async function (value) {
+        const domain = value.split("@")[1];
+        try {
+          // Try to resolve domain (check if it exists)
+          await dns.promises.lookup(domain);
+          return true;
+        } catch (err) {
+          return false;
+        }
+      },
+      message: "Invalid email domain",
+    },
   },
   password: {
     type: String, // ✅ Fixed password field

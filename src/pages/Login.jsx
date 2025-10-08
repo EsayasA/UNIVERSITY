@@ -3,6 +3,8 @@ import "./Login.css";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -10,13 +12,10 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "https://backend-addis-1.onrender.com/auth/login",
-        {
-          email,
-          password,
-        }
-      );
+      const response = await axios.post(`${API_URL}/auth/login`, {
+        email,
+        password,
+      });
       const { token, user } = response.data;
 
       // Save token to localStorage
