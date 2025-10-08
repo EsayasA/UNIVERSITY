@@ -10,7 +10,7 @@ const port = 5001;
 
 app.use(
   cors({
-    origin: "http://localhost:5174",
+    origin: "http://localhost:5173",
     credentials: true, // Allow requests from this origin
   })
 );

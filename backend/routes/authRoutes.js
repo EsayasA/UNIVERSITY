@@ -4,8 +4,9 @@ import jwt from "jsonwebtoken";
 import User from "../models/Usermodel.js";
 import nodemailer from "nodemailer";
 import { verifyToken } from "../middleware/auth.js";
-
+import dotenv from "dotenv";
 const router = express.Router();
+dotenv.config();
 
 // Register Route
 router.post("/register", async (req, res) => {
@@ -209,7 +210,7 @@ router.post("/forgot-password", (req, res) => {
       from: "esayasaregawi29@gmail.com",
       to: user.email,
       subject: "Reset Password Link",
-      text: `https://addis-uni.netlify.app/reset-password/${user._id}/${token}`,
+      text: `${process.env.FRONTEND_URL}/reset-password/${user._id}/${token}`,
     };
 
     // eslint-disable-next-line no-unused-vars

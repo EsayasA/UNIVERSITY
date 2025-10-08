@@ -3,6 +3,7 @@ import Logo from "./Logo";
 import "./Navbar.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Navbar() {
@@ -12,12 +13,9 @@ export default function Navbar() {
   const dropdownRef = useRef(null);
   const profileBtnRef = useRef(null);
   const navigate = useNavigate();
-  console.log(API_URL);
 
   const closeMenu = () => setOpen((prev) => !prev);
-  const toggleDropdown = () => {
-    setIsOpen((prev) => !prev);
-  };
+  const toggleDropdown = () => setIsOpen((prev) => !prev);
 
   // Close dropdown if clicked outside
   useEffect(() => {
@@ -31,52 +29,61 @@ export default function Navbar() {
         setIsOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
-  // Fetch user data from the backend using the token in localStorage
+  // Fetch user data from backend using JWT token
   const fetchUser = async () => {
     const token = localStorage.getItem("authToken");
-
     if (!token) {
-      setUser(null); // No token means user is logged out
+      setUser(null);
       return;
     }
-
     try {
       const response = await axios.get(`${API_URL}/auth/profile`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setUser(response.data.user); // Set user if token is valid
+      setUser(response.data.user);
     } catch (error) {
       console.error("Error fetching user data:", error);
-      setUser(null); // In case of error, set user to null
+      setUser(null);
+      localStorage.removeItem("authToken"); // remove invalid token
     }
   };
 
-  // Run fetchUser on mount and whenever the token changes
+  // Fetch user on mount for page refresh
   useEffect(() => {
     fetchUser();
-  }, [localStorage.getItem("authToken")]); // Dependency on authToken change
+  }, []);
 
-  // Handle logout functionality
+  // Handle logout
   const handleLogout = () => {
-    localStorage.removeItem("authToken"); // Clear auth token from localStorage
-    setUser(null); // Reset user state
-    setIsOpen(false); // Close dropdown if open
-    navigate("/login"); // Redirect to login page
+    localStorage.removeItem("authToken");
+    setUser(null);
+    setIsOpen(false);
+    navigate("/login");
   };
 
-  // Handle login functionality (simulate login)
-  const handleLogin = () => {
-    // Example: simulate login by setting a fake token
-    localStorage.setItem("authToken", "fake-token"); // Save token
-    fetchUser(); // Fetch user data after setting the token
-    navigate("/"); // Redirect to home page after login
+  // Handle login — user credentials should come from a login form
+  const handleLogin = async (email, password) => {
+    try {
+      const response = await axios.post(`${API_URL}/auth/login`, {
+        email,
+        password,
+      });
+      const token = response.data.token;
+      localStorage.setItem("authToken", token);
+      setUser(response.data.user); // set user immediately
+      console.log(user);
+
+      navigate("/"); // redirect after login
+    } catch (error) {
+      console.error("Login failed:", error);
+      alert("Invalid email or password");
+    }
   };
 
   return (
@@ -102,7 +109,7 @@ export default function Navbar() {
           </li>
           <li className="user-profile">
             {user ? (
-              // If user is logged in, show profile button and dropdown
+              // Logged-in user: show profile dropdown
               <div className="profile-dropdown">
                 <button
                   ref={profileBtnRef}
@@ -120,7 +127,10 @@ export default function Navbar() {
                       Search
                     </Link>
                     <button
-                      onClick={(handleLogout(), closeMenu())}
+                      onClick={() => {
+                        handleLogout();
+                        closeMenu();
+                      }}
                       className="logout-btn"
                     >
                       Logout
@@ -129,15 +139,10 @@ export default function Navbar() {
                 )}
               </div>
             ) : (
-              // If user is not logged in, show login button
-
-              <Link
-                to="/login"
-                onClick={(handleLogin(), closeMenu())}
-                className="login-btn"
-              >
+              // Not logged-in: show login button
+              <button className="login-btn" onClick={() => navigate("/login")}>
                 Login
-              </Link>
+              </button>
             )}
           </li>
         </ul>
